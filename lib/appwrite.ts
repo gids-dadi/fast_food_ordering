@@ -1,5 +1,5 @@
 
-import { Account, Client, Databases, Avatars, ID} from "react-native-appwrite"
+import {Account, Client, Databases, Avatars, ID, Query} from "react-native-appwrite"
 import {CreateUserPrams, SignInParams} from "@/type";
 
 export  const appwriteConfig = {
@@ -23,13 +23,13 @@ export const createUser = async ({ email, password, name }: CreateUserPrams) => 
         const newAccount = await account.create(ID.unique(), email, password, name);
         if(!newAccount) throw new Error("Failed to create user");
         await signIn({ email, password});
-        const avatUrl = avatars.getInitials(name);
+        const avatarUrl = avatars.getInitialsURL(name);
         const newUser = await databases.createDocument(
             appwriteConfig.databaseId,
             appwriteConfig.userCollectionId,
             ID.unique(),
             {
-                accountId: newAccount.$id, email, name, avatar: avatUrl
+                accountId: newAccount.$id, email, name, avatar: avatarUrl
             }
 
         )
@@ -50,3 +50,19 @@ export const signIn = async({ email, password } : SignInParams) => {
     }
 }
 
+export const getCurrentUser = async () => {
+    try {
+        const currentAccount = await account.get();
+        if(!currentAccount) throw new Error("Failed to get current user");
+
+        const currentUser =  await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.userCollectionId,
+            [Query.equal('accountId', currentAccount.$id)]
+        )
+        if(!currentUser) throw new Error("Failed to get current user");
+        return currentUser.documents[0];
+    } catch (error: any) {
+        throw new Error(error.message);
+    }
+}
