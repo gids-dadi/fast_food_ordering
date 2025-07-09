@@ -8,10 +8,10 @@ import useAuthStore from "@/store/auth.store";
 
 
 
-export function Index() {
-    const {user} = useAuthStore();
+ function Index() {
+    const { user } = useAuthStore();
 
-    console.log("user", JSON.stringify(user, null, 2));
+    // console.log("user", JSON.stringify(user, null, 2));
 
 
     return (
@@ -72,3 +72,5 @@ export function Index() {
         </SafeAreaView>
     );
 }
+
+export default Index;

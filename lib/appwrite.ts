@@ -1,5 +1,5 @@
 
-import {Account, Client, Databases, Avatars, ID, Query} from "react-native-appwrite"
+import {Account, Client, Databases, Avatars, ID, Query, Storage} from "react-native-appwrite"
 import {CreateUserPrams, SignInParams} from "@/type";
 
 export  const appwriteConfig = {
@@ -9,9 +9,9 @@ export  const appwriteConfig = {
     databaseId: "686d2ebc0008da872b0c",
     bucketId: "686e4c5c001370558e1b",
     userCollectionId: "686d2ff9000c73db13f5",
-    categoriesCollection: "686e3ffb0003a8aab8cc",
+    categoriesCollectionId: "686e3ffb0003a8aab8cc",
     menuCollectionId: "686e41020018881d4b95",
-    customizationCollectionId: "686e47ff0035cdb2b386",
+    customizationsCollectionId: "686e47ff0035cdb2b386",
     menuCustomizationCollectionId: "686e4993001babc45f47"
 }
 
@@ -21,6 +21,7 @@ client.setEndpoint(appwriteConfig.endpoint!).setProject(appwriteConfig.projectId
 
 export const account = new Account(client);
 export const databases = new Databases(client);
+export const storage = new Storage(client);
 const avatars = new Avatars(client);
 
 export const createUser = async ({ email, password, name }: CreateUserPrams) => {
