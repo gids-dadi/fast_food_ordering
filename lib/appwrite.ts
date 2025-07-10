@@ -7,7 +7,7 @@ export  const appwriteConfig = {
     platform: "com.food_ordering",
     projectId: process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID,
     databaseId: "686d2ebc0008da872b0c",
-    bucketId: "686e4c5c001370558e1b",
+    bucketId: "686fa1ca0010615287aa",
     userCollectionId: "686d2ff9000c73db13f5",
     categoriesCollectionId: "686e3ffb0003a8aab8cc",
     menuCollectionId: "686e41020018881d4b95",
@@ -30,17 +30,15 @@ export const createUser = async ({ email, password, name }: CreateUserPrams) => 
         if(!newAccount) throw new Error("Failed to create user");
         await signIn({ email, password});
         const avatarUrl = avatars.getInitialsURL(name);
-        const newUser = await databases.createDocument(
+          return await databases.createDocument(
             appwriteConfig.databaseId,
             appwriteConfig.userCollectionId,
             ID.unique(),
             {
                 accountId: newAccount.$id, email, name, avatar: avatarUrl
             }
-
         )
 
-        return newUser;
     } catch (error: any) {
         throw new Error(error.message);
     }
