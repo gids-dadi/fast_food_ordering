@@ -313,7 +313,7 @@ async function seed(): Promise<void> {
         console.log("🧹 Clearing existing data...");
         await clearAll(appwriteConfig.categoriesCollectionId);
         await clearAll(appwriteConfig.customizationsCollectionId);
-        // await clearAll(appwriteConfig.menuCollectionId);
+        await clearAll(appwriteConfig.menuCollectionId);
         await clearAll(appwriteConfig.menuCustomizationCollectionId);
         await clearStorage();
         console.log("✅ All data cleared");

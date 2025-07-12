@@ -1,6 +1,6 @@
 
 import {Account, Client, Databases, Avatars, ID, Query, Storage} from "react-native-appwrite"
-import {CreateUserPrams, SignInParams} from "@/type";
+import {CreateUserPrams, SignInParams, GetMenuParams} from "@/type";
 
 export  const appwriteConfig = {
     endpoint: process.env.EXPO_PUBLIC_APPWRITE_ENDPOINT,
@@ -70,3 +70,37 @@ export const getCurrentUser = async () => {
         throw new Error(error.message);
     }
 }
+
+export const getMenu = async ({ category, query } : GetMenuParams) => {
+    try {
+        const queries: string[] = []
+
+        if(category) queries.push(Query.equal("categories", category));
+        if(query) queries.push(Query.search("name", query));
+
+        const menu = await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.menuCollectionId,
+            queries
+        )
+        if(!menu) throw new Error("Failed to get menu");
+        return menu.documents;
+
+    } catch (error: any) {
+        throw new Error(error.message);
+    }
+}
+
+export const getCategories = async () => {
+    try {
+        const categories = await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.categoriesCollectionId
+        )
+        if(!categories) throw new Error("Failed to get categories");
+        return categories.documents;
+    } catch (error: any) {
+        throw new Error(error.message);
+    }
+}
+
