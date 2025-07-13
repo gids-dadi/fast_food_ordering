@@ -57,6 +57,7 @@ export const signIn = async({ email, password } : SignInParams) => {
 export const getCurrentUser = async () => {
     try {
         const currentAccount = await account.get();
+
         if(!currentAccount) throw new Error("Failed to get current user");
 
         const currentUser =  await databases.listDocuments(

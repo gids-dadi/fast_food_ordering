@@ -26,7 +26,6 @@ import useAuthStore from "@/store/auth.store";
                             <Pressable className={cn("offer-card", isEven ? "flex-row-reverse" : "flex-row")}
                                        style={{backgroundColor: item.color}}
                                        android_ripple={{color: "#fffff22"}}
-
                             >
 
                                 {({pressed}) => (
